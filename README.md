@@ -1,5 +1,3 @@
----
-
 ## Repository Structure
 
 Below is an overview of the repository’s folder structure:
