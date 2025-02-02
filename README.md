@@ -1,8 +1,14 @@
-# "Collaborative research networks as a strategy to synthesize knowledge of Amazonian biodiversity" repository 🌴🤝🏦
-
+![alt text](https://i.imgur.com/sI3h2K5.png)
+# Brazilian National Institutes of Science and Technolog repository 🌴🤝🏦
 
 ## Overview
 
+This repository archives and shares datasets, code, and resources associated with the research "*Collaborative research networks as a strategy to synthesize knowledge of Amazonian biodiversity*", by Resende et al., (2025), conducted under the INCT-SinBiAm (National Institute of Science and Technology in Synthesis of Amazonian Biodiversity) initiative. SinBiAm is a collaborative research network integrating 45 academic and non-academic institutions from Brazil and abroad, dedicated to synthesizing biodiversity data in Amazonian ecosystems. We aim to:
+
+- Provide open access to biodiversity datasets from forest and freshwater ecosystems.
+- Share analytical scripts and models used in biodiversity research and synthesis.
+- Facilitate collaboration among researchers, policymakers, and educators.
+- Support the training of scientists and decision-makers committed to Amazon conservation.
 
 ## Repository Structure
 
