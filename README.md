@@ -1,10 +1,8 @@
 # "Collaborative research networks as a strategy to synthesize knowledge of Amazonian biodiversity" repository 🌴🤝🏦
 
----
 
 ## Overview
 
----
 
 ## Repository Structure
 
@@ -55,7 +53,6 @@ Below is an overview of the repository’s folder structure:
 └── README.md      # Documentation file providing an overview of the project and instructions for use.
 ```
 
----
 
 ## Getting Started  
 
@@ -66,7 +63,6 @@ Below is an overview of the repository’s folder structure:
 2. Open `INCT.Rproj` in RStudio.  
 3. Use the provided scripts to explore and analyze the data.  
 
----
 
 ## Citation
 
@@ -74,7 +70,6 @@ If you use or modify any part of this repository in your work, please cite the o
 
 > Oliveira, W., Colares, L.F., Porto, R.G., Viana, B.F., Tabarelli, M., & Lopes, A.V. (2024). *Food plants in Brazil: origin, economic value of pollination and pollinator shortage risk*. Science of The Total Environment, 169147. [doi:10.1016/j.scitotenv.2023.169147](https://doi.org/10.1016/j.scitotenv.2023.169147)
 
----
 
 ## License
 
