@@ -1,5 +1,5 @@
 ![alt text](https://i.imgur.com/sI3h2K5.png)
-# Brazilian National Institutes of Science and Technolog repository 🌴🤝🏦
+# Brazilian National Institutes of Science and Technology repository 🌴🤝🏦
 
 ## Overview
 
