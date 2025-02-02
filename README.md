@@ -74,7 +74,7 @@ Below is an overview of the repository’s folder structure:
 
 If you use or modify any part of this repository in your work, please cite the original paper:
 
-> Resende, B., Colares, L.F., et al. (2025). *Collaborative research networks as a strategy to synthesize knowledge of Amazonian biodiversity*. Proceedings of the Royal Society B: Biological Sciences.
+> Resende, B., Colares, L.F., et al. (2025). *Collaborative research networks as a strategy to synthesize knowledge of Amazonian biodiversity*. Submitted to **Proceedings of the Royal Society B: Biological Sciences**.
 
 
 ## License
