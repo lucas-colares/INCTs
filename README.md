@@ -66,8 +66,9 @@ Below is an overview of the repository’s folder structure:
    ```bash  
    git clone https://github.com/lucas-colares/INCTs.git  
    ```  
-2. Open `INCT.Rproj` in RStudio.  
-3. Use the provided scripts to explore and analyze the data.  
+2. Open `INCT.Rproj` in RStudio.
+3. Run `00. setup.R` to set up the analysis environment.
+4. Use the remaining scripts to explore and analyze the data.  
 
 
 ## Citation
