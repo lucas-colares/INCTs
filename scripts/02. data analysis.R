@@ -379,7 +379,7 @@ prop_taxa<-ggplot(data = full_datasets,aes(y = factor(Taxa,levels = rev(c("Ants"
   theme_bw()+
   scale_fill_moma_d(palette_name = "Exter")+
   scale_color_moma_d(palette_name = "Exter")+
-  scale_y_discrete(labels=rev(c("Ants","Fish","Birds","Freshwater\nmacroinvertebrates","Beetles","Macrophytes")))+
+  scale_y_discrete(labels=rev(c("Ants","Fish","Birds","Freshwater\nmacroinvertebrates","Dung beetles","Macrophytes")))+
   labs(x="Proportion of species",fill="Dataset",color="Dataset",y="Taxa")+
   theme(legend.text.align = 0,legend.title.align = 0,legend.justification = "top",legend.position ="right", legend.background = element_rect(fill="NA", colour = "NA"), legend.title = element_text(family = "sans",size=12, face="bold"), legend.text = element_text(family = "sans",size=10), axis.text.x = element_text(family = "sans", colour = "black", size=12), axis.text.y = element_text(family = "sans", colour = "black", size=12), axis.title = element_text(face="bold",family = "sans", size = 14), panel.border = element_rect(colour = "black", fill = "NA"));prop_taxa
 
@@ -392,3 +392,62 @@ for(x in unique(full_datasets$Taxa)){
   full_datasets[full_datasets$Taxa==x,]$N/sum(full_datasets[full_datasets$Taxa==x,]$N)->full_datasets[full_datasets$Taxa==x,]$prop
 }
 full_datasets
+
+##### Demographics ----
+readxl::read_xlsx("datasets/csv/Dados_demograficos_membros_INCT.xlsx",sheet = 1)->demo
+plot(BR$geometry)
+data.frame(city = names(table(demo$`Estado/País`)), N = as.numeric(table(demo$`Estado/País`)), X = NA, Y = NA)->arrow_data
+demo[match(arrow_data$city,demo$`Estado/País`),c("X","Y")]->arrow_data[,c("X","Y")]
+
+library(rworldmap)
+world <-  getMap() 
+st_as_sf(world) -> world
+plot(world$geometry)
+
+read_sf("datasets/spatial/BR_UF_2022.shp")->BR_UF
+
+st_as_sf(arrow_data,coords = c("X","Y"),crs = 4326)->arrow_data2
+sf_use_s2(FALSE)
+st_crop(world,st_bbox(st_buffer(arrow_data2,2)))->world_crop
+st_transform(arrow_data2,st_crs(BR_UF))->arrow_data2
+st_crop(arrow_data2,BR_UF)->arrow_data2
+st_crop(BR_UF,st_bbox(st_buffer(arrow_data2,0.2)))->world_crop
+arrow_data2[match(BR_UF$NM_UF,arrow_data2$city),]$N->BR_UF$N
+#BR_UF$N[is.na(BR_UF$N)]<-0
+
+wrld_map<-ggplot()+
+  geom_sf(data = world_crop, fill = "white", color= "black")+
+  geom_sf(data = BR_UF, color="black",alpha=1)+
+  geom_curve(data = arrow_data, aes(x = X, y = Y, color = log10(N), linewidth = log10(N)), xend = -48.45924268, yend = -1.37498257894123, curvature = -0.5 , arrow= grid::arrow(length = unit(0.2,"cm")))+
+  theme_minimal()+
+  MoMAColors::scale_color_moma_c(palette_name = "Exter",name="Number of\npartners",breaks = round(seq(min(log10(arrow_data$N)),max(log10(arrow_data$N)),length.out=5),3), labels = round(10^round(seq(min(log10(arrow_data$N)),max(log10(arrow_data$N)),length.out=5),3),1))+
+  scale_linewidth_binned(breaks = round(seq(min(log10(arrow_data$N)),max(log10(arrow_data$N)),length.out=5),3), labels = round(10^round(seq(min(log10(arrow_data$N)),max(log10(arrow_data$N)),length.out=5),3),1))+
+  labs(linewidth = "Number of\npartners")+
+  theme(legend.text.align = 0,legend.title.align = 0,legend.justification = "top",legend.position ="right", legend.background = element_rect(fill="NA", colour = "NA"), legend.title = element_text(family = "sans",size=12, face="bold"), legend.text = element_text(family = "sans",size=10), axis.text.x = element_text(family = "sans", colour = "black", size=12), axis.text.y = element_text(family = "sans", colour = "black", size=12), axis.title = element_blank()); wrld_map
+
+st_bbox(BR_UF)->limitz; limitz[3] = -34.29395854170223
+BR_UF = st_crop(BR_UF,limitz)
+
+BR_map<-ggplot()+
+  geom_sf(data = BR_UF, aes(fill=log10(N)),color="black",alpha=1)+
+  geom_curve(data = arrow_data[match(arrow_data2$city,arrow_data$city),], aes(x = X, y = Y, color = log10(N), linewidth = log10(N)), xend = -48.45924268, yend = -1.37498257894123, curvature = -0.5 , arrow= grid::arrow(length = unit(0.2,"cm")))+
+  theme_minimal()+
+  guides(color="none",linewidth="none",fill="none")+
+  MoMAColors::scale_fill_moma_c(palette_name = "Exter",name="Number of\npartners",breaks = round(seq(min(log10(arrow_data$N)),max(log10(arrow_data$N)),length.out=5),3), labels = round(10^round(seq(min(log10(arrow_data$N)),max(log10(arrow_data$N)),length.out=5),3),1),na.value="transparent")+
+  MoMAColors::scale_color_moma_c(palette_name = "Exter",name="Number of\npartners",breaks = round(seq(min(log10(arrow_data$N)),max(log10(arrow_data$N)),length.out=5),3), labels = round(10^round(seq(min(log10(arrow_data$N)),max(log10(arrow_data$N)),length.out=5),3),1))+
+  scale_linewidth_binned(breaks = round(seq(min(log10(arrow_data$N)),max(log10(arrow_data$N)),length.out=5),3), labels = round(10^round(seq(min(log10(arrow_data$N)),max(log10(arrow_data$N)),length.out=5),3),1))+
+  theme(legend.text.align = 0,legend.title.align = 0,legend.justification = "top",legend.position ="right", legend.background = element_rect(fill="NA", colour = "NA"), legend.title = element_text(family = "sans",size=12, face="bold"), legend.text = element_text(family = "sans",size=10), axis.text.x = element_text(family = "sans", colour = "black", size=12), axis.text.y = element_text(family = "sans", colour = "black", size=12), axis.title = element_blank()); BR_map
+
+data.frame(table(demo$Sexo))->sex_data
+sex_data$Freq = sex_data$Freq/sum(sex_data$Freq)
+pie_gg<-ggplot(sex_data, aes(x="", y=Freq, fill=Var1)) +
+  geom_bar(stat="identity", width=1) +
+  coord_polar("y", start=0)+
+  scale_fill_manual(values=c("#C62E2E","#77CDFF"),labels=c("Female","Male"),name="Sex")+
+  theme_minimal()+
+  guides(fill="none")+
+  theme(legend.text.align = 0,legend.title.align = 0,legend.justification = "top",legend.position ="right", legend.background = element_rect(fill="NA", colour = "NA"), legend.title = element_text(family = "sans",size=12, face="bold"), legend.text = element_text(family = "sans",size=8), axis.text.x = element_text(family = "sans", colour = "black", size=8), axis.text.y = element_text(family = "sans", colour = "black", size=8, angle=90), axis.title = element_blank()); pie_gg
+
+BR_map = BR_map+annotation_custom(cowplot::as_grob(pie_gg), xmin = -75, xmax = -60, ymin = -40, ymax = -17)
+arr1 = ggarrange(wrld_map,BR_map,common.legend = T,legend = "right",labels = c("(a)","(b)"),label.x = 0.1,label.y = 0.98)
+ggsave(filename = "figures/demographics.tif",plot = arr1,width = 12,height = 5,units = "in")
